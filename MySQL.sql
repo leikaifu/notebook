@@ -8,6 +8,7 @@ create database mybatis;   mybatis就是取的数据库名
 drop database mybatis; 
 
                     数据表
+DDL数据库定义
 1、创建表
 create table book（
     id int unsigned not null auto_increment primary key,
@@ -21,12 +22,12 @@ rename table book to user2;  把book修改为user2；
 drop table book;
 
 4、字段管理:
-    1.添加字段
+    1.添加字段--user是表名
     alter table user add age tinyint unsigned not null;
-    alter table user add pass varchar(30) not null after user;
+    alter table user add pass varchar(30) not null after username;
     alter table user add pass varchar(30) not null first;
 
-    2.删除字段
+    2.删除字段--password是字段名
     alter table user drop password;
 
     3.修改字段
@@ -35,7 +36,7 @@ drop table book;
 
     4.查看字段
     desc user;
-
+DML数据库操作语言
 字段对应内容：
 
 4.增-insert:
@@ -48,9 +49,14 @@ delete from user where id=5;
 update user set password='123' where id=2;
 update user set username='user33',password='123' where id=3;
 
+DQL 数据库查询语言
 7.查-select:
 select * from user;
 #查询表中所有字段以及每个字段所对应的所有记录
+#
+#
+DCL 数据控制语言
+
 
 8.where条件
 1)where id>=3 and id<=7
