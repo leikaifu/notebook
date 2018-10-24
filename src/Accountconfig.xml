@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:txt="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <context:annotation-config/>
 <!--加载jdbc.properties属性文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
@@ -22,8 +23,7 @@
     <bean id="accountService" class="com.itheima.AccountServiceImpl">
         <!--注入接口Dao======-->
         <property name="accountDao" ref="accountDao"/>
-        <!--注入事务管理模板-->
-        <property name="transactionTemplate" ref="transactionTemplate"/>
+
     </bean>
 
     <!--配置Dao==========-->
@@ -38,9 +38,24 @@
     </bean>
 
     <!--配置事务管理的模板类=====-->
-    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
-        <property name="transactionManager" ref="transactionManager"/>
-    </bean>
-
-
+    <!--<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">-->
+        <!--<property name="transactionManager" ref="transactionManager"/>-->
+    <!--</bean>-->
+    <!--配置事务的增强====-->
+    <txt:advice id="txtAdvice" transaction-manager="transactionManager">
+        <txt:attributes>
+            <txt:method name="save*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <txt:method name="update*" propagation="REQUIRED"/>
+            <txt:method name="delete*" propagation="REQUIRED"/>
+            <txt:method name="find*" read-only="true"/>
+            <txt:method name="*" propagation="REQUIRED"/>
+        </txt:attributes>
+    </txt:advice>
+    <!--aop配置-->
+    <aop:config>
+        <!--切入点-->
+        <aop:pointcut id="pointcut1" expression="execution(* com.itheima.AccountServiceImpl.*(..))"/>
+        <!--切面通知-->
+        <aop:advisor advice-ref="txtAdvice" pointcut-ref="pointcut1"/>
+    </aop:config>
 </beans>
