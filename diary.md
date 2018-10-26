@@ -294,7 +294,56 @@ value是参数值  required等于true时就是说明这个参数必须填写  de
 2018/10/22
 学习日志：
 1、总结了MySQL语句
-2、
 
+2018/10/24
+学习日志：
+1、构造方法：
+首先子类中的方法必须调用父类的构造方法，如果父类中只有一个有参的构造方法，你在子类的构造方法必须调用，而且是子类的构造方法第一句话必须是调用父类的有参构造方法，否则编译器会提示错误的。如果父类中有无参的构造方法，你没有写的话会自动调用的
 
+2018/10/25
+学习日志：
+1、什么叫做匿名类？
+2、advisor 是一个切入点和一个通知组；
+   aspect 是支持多个切入点和多个通知组；
+   <txt:method name="*" propagation="REQUIRED" timeout="-1" read-only="true" isolation="DEFAULT" no-rollback-for="" rollback-for=""   />
 
+timeout="-1" 表示事务永久生效
+isolation="DEFAULT  表示隔离为默认值
+
+ <!--配置事务的增强====-->
+    <txt:advice id="txtAdvice" transaction-manager="transactionManager">
+        <txt:attributes>
+            <txt:method name="save*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <txt:method name="update*" propagation="REQUIRED"/>
+            <txt:method name="delete*" propagation="REQUIRED"/>
+            <txt:method name="find*" read-only="true"/>
+            <txt:method name="*" propagation="REQUIRED" />
+        </txt:attributes>
+    </txt:advice>
+    <!--aop配置-->
+    <aop:config>
+        <!--切入点-->
+        <aop:pointcut id="pointcut1" expression="execution(* com.itheima.AccountServiceImpl.*(..))"/>
+        <!--切面通知-->
+        <aop:advisor advice-ref="txtAdvice" pointcut-ref="pointcut1"/>
+    </aop:config>
+
+3、
+（JAVA+TESTNG 三）Eclipse+TestNG搭建接口自动化测试框架
+4、
+请求转发
+forward:
+redirect:
+
+提交乱码问题：
+post 通过配置过滤器来解决
+get  通过常用的在Tomcat设置上URIEncoding=utf-8
+
+响应出现乱码问题：
+response出现乱码问题：在获取getwriter之前，设置一个response.setCharacterEncoding("utf-8") 
+
+异常：
+编译异常
+运行异常
+
+springmvc 中有一个异常处理器；
