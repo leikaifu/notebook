@@ -347,3 +347,80 @@ response出现乱码问题：在获取getwriter之前，设置一个response.set
 运行异常
 
 springmvc 中有一个异常处理器；
+
+2018/10/28
+学习日志：
+1、List,Set都是继承自Collection接口
+2、List特点：元素有放入顺序，元素可重复 ，
+   Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的） 
+3、List接口有三个实现类：LinkedList，ArrayList，Vector ，Set接口有两个实现类：HashSet(底层由HashMap实现)，LinkedHashSet
+
+
+4、在dos下，输入  
+
+    (1)：netstat   -ano|findstr  8080
+//说明：查看占用8080端口的进程
+
+    (2):taskkill  /pid  2140  /f  
+//这里的2140是通过命令netstat   -ano|findstr  8080查到的ID号
+
+//说明，运行windows自带taskkill命令，将上面显示的进程号，结束掉。
+
+2018/10/31
+学习日志：
+第一个参数是要设置的 SQL 语句中的参数的索引(从 1 开始)，第二个是设置的 SQL 语句中的参数的值。
+根据问号位置的参数类型来定的，如果第一个是int型的就是ps.setInt(1,num)；如果是String类型就是ps.setString(2,string)，以此类推
+
+
+2018/11/1
+学习日志：
+1、Account a=new Account();
+Account.class//很多地方这样写（其实就是一个对象）
+Account a=Account.class.newInstance(); //这就是底层的写法，就是把传过来的Account.class  new 一个对象
+
+
+2018/11/6
+学习日志：
+1、我们假设有一个接口A ，和它得实现类B，简化代码如下：
+
+interface A { //接口A               
+ //接口的方法声明必须是 public abstract ，即便不写默认也是public abstract
+    public void fun();
+
+}
+public class B implements A {
+
+    @Override
+    public void fun() {
+        //your coding
+    }
+
+}
+
+
+2018/11/8
+学习日志：
+应为static的属性或方法是存放在栈里面的，它们属于类的信息，不需要new对象就可以直接使用，它们属于类，而不是属于某个new出来的对象，所以可以只接用类名加点号就可以引用，而一般的动态属性是属于某个对象的，它们是放在堆里的，所以要new出某个类的对象才能引用。
+
+2018/11/12
+学习日志：
+使用到的工具是：Eclipse + TestNG + Maven + ReportNG
+
+在IDEA控制台Terminal输入
+mvn -f pom.xml clean test  -DxmlFileName=testNG.xml
+
+testng 按组测试
+配置文件
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suite1">
+    <test name="test1">
+        <groups>
+        <run>
+        <include name="functiontest" />
+        </run>
+    </groups>
+    </test>
+</suite>
+
