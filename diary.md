@@ -1,3 +1,4 @@
+接口调用测试：Restlet Client 插件工具 ，安装在chrome上；
 
 使用的编辑器：exlipse 、idea、STS
 
@@ -424,3 +425,16 @@ testng 按组测试
     </test>
 </suite>
 
+
+2018/11/16
+学习日志：
+filename.zip的解压命名：unzip filename.zip
+
+filename.tar.gz的解压命令： tar -zxvf filename.tar.gz
+
+z: gizp                      压缩格式
+x: extract                   解压
+v:verbose                    详细信息
+f:file（file=archieve)        文件
+
+下载命名 wget  http--------
