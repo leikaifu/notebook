@@ -594,7 +594,7 @@ Java中indexOf的用法
 indexOf有四种用法：
 1.indexOf(int ch) 在给定字符串中查找字符(ASCII),找到返回字符数组所对应的下标找不到返回-1
 
-2.indexOf(String str)在给定符串中查找另一个字符串第一次出现的位置。。。
+2.indexOf(String str)在给定符串中查找另一个字符串。。。
 
 3.indexOf(int ch,int fromIndex)从指定的下标开始查找某个字符，查找到返回下标，查找不到返回-1
 
@@ -602,7 +602,6 @@ indexOf有四种用法：
 public static void main(String[] args) {
         char[] ch= {'a','b','c','h','e','l','l','o'};
         String str=new String(ch);
-
  
         //1.indexOf(int ch)
         str.indexOf(104);
@@ -622,25 +621,6 @@ public static void main(String[] args) {
         str.indexOf("che", 0);//等价于str.indexOf("che")
         System.out.println(str.indexOf("che", 0));//2
     }
-
-Java中字符串中子串的查找共有四种方法，如下：
-1、int indexOf(String str) ：返回第一次出现的指定子字符串在此字符串中的索引。 
-2、int indexOf(String str, int startIndex)：从指定的索引处开始，返回第一次出现的指定子字符串在此字符串中的索引。 
-3、int lastIndexOf(String str) ：返回在此字符串中最右边出现的指定子字符串的索引。 
-4、int lastIndexOf(String str, int startIndex) 
-
-public class Test {
-    public static void main(String[] args) {
-        String s = "xXccxxxXX";
-        // 从头开始查找是否存在指定的字符         //结果如下 
-        System.out.println(s.indexOf("c"));     //2
-        // 从第四个字符位置开始往后继续查找，包含当前位置
-        System.out.println(s.indexOf("c", 3));  //3
-        //若指定字符串中没有该字符则系统返回-1
-        System.out.println(s.indexOf("y"));     //-1
-        System.out.println(s.lastIndexOf("x")); //6
-    }
-}
 
 分析一下if  ifelse 
 学习正则表达式
@@ -801,7 +781,7 @@ if(5>6){
 
 判断：
 str.startWith(）方法
-同理startends(）方法相反
+同理startWith(）方法相反
 判断字符串是否以某个子字符串开头。
 比如字符串“abcdefg”.startWith("abc") 判断结果是true，因为它是以 abc 开头的。
 
@@ -848,43 +828,3 @@ this就是说这个类的当前这个对象，也就是构造方法产生的对�
 https://blog.csdn.net/HD243608836/article/details/80827522s
 
 服务器部署：http://www.mamicode.com/info-detail-1336922.html
-
-2018/11/29
-学习日志：
-StringBuilder的常用方法
-在程序开发过程中，我们常常碰到字符串连接的情况，方便和直接的方式是通过"+"符号来实现，但是这种方式达到目的的效率比较低，且每执行一次都会创建一个String对象，即耗时，又浪费空间。使用StringBuilder类就可以避免这种问题的发生，下面就Stringbuilder的使用做个简要的总结：
-一、创建Stringbuilder对象
-StringBuilder strB = new StringBuilder();
-
-1、append(String str)/append(Char c)：字符串连接
-System.out.println("StringBuilder:"+strB.append("ch").append("111").append('c'));
-//return "StringBuilder:ch111c"
-
-2、toString()：返回一个与构建起或缓冲器内容相同的字符串
-System.out.println("String:"+strB.toString());
-//return "String:ch111c"
-
-3、appendcodePoint(int cp)：追加一个代码点，并将其转换为一个或两个代码单元并返回this
-System.out.println("StringBuilder.appendCodePoint:"+strB.appendCodePoint(2));
-//return "StringBuilder.appendCodePoint:ch111c"
-
-4、setCharAt(int i, char c)：将第 i 个代码单元设置为 c（可以理解为替换）
-strB.setCharAt(2, 'd');
-System.out.println("StringBuilder.setCharAt:" + strB);
-//return "StringBuilder.setCharAt:chd11c"
-
-5、insert(int offset, String str)/insert(int offset, Char c)：在指定位置之前插入字符(串)
-System.out.println("StringBuilder.insertString:"+ strB.insert(2, "LS"));
-//return "StringBuilder.insertString:chLSd11c"
-System.out.println("StringBuilder.insertChar:"+ strB.insert(2, 'L'));
-//return "StringBuilder.insertChar:chLLSd11c"
-
-6、delete(int startIndex,int endIndex)：删除起始位置（含）到结尾位置（不含）之间的字符串
-System.out.println("StringBuilder.delete:"+ strB.delete(2, 4));
-//return "StringBuilder.delete:chSd11c"
-
-2018/12/3
-学习日志：
-jemter可以结合badboy录制脚本使用
-
-
