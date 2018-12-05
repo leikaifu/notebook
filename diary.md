@@ -457,7 +457,7 @@ cat /etc/redha*
     ONBOOT=yes
     DNS1=114.114.114.114  #填写网管的DNS地址
 
-（2）服务器配置网卡（自动获取IP地址）
+`（2）服务器配置网卡（自动获取IP地址）
     DEVICE=eth0
     BOOTPROTO=dhcp
     ONBOOT=yes
@@ -492,6 +492,32 @@ vim  /etc/sysconfig/network-scripts/ifcfg-eth0
 公司常用的:
 查看服务器环境
 echo $FOR_DOMAIN 
+
+9、修改服务器登录密码
+如果你可以以root身份登录的话就passwd命令就可以直接修改了
+密码输入两次就OK了。
+
+10、创建文件
+然后使用mkdir tomcat命令在local目录下创建一个tomcat目录。
+11、
+需要上传或者下载，需要使用rz和sz命令。如果linux上没有这两个命令工具，则需要先安装。可以使用yum安装。运行命令yum install lrzsz。 
+
+yum -y install wget
+
+less
+more 其实有了less命令基本上可以抛弃more命令，less具有搜索功能，如果只是简单查看那就用more命令应该不需要跟任何参数，比较方便
+./:表示当前目录
+cat 
+clear 清空所以界面
+
+查看防火墙状态的命令：service iptables status
+关闭防火墙的命令：service iptables stop
+
+配置环境变量
+编辑profile文件：vi /etc/profile
+
+配置服务器环境：
+
 
 
 自己在本地创库：
@@ -885,6 +911,8 @@ System.out.println("StringBuilder.delete:"+ strB.delete(2, 4));
 
 2018/12/3
 学习日志：
-jemter可以结合badboy录制脚本使用
+读取配置文件：
+ResourceBundle bundle=ResourceBundle.getBundle("application");
+String url=bundle.getString("test.url");
 
 
