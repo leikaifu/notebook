@@ -478,7 +478,8 @@ route  -n   回车
 6、编辑文本
 i --是进入编辑状态；
 :q  --退出，但是不保存；
-:wq! 或者 :wq  --退出并保存；
+：q!  强制退出
+:wq  --退出并保存；
 
 7、ifconfig 命令可以查看是那个网卡
 一般默认网卡eth0 
@@ -518,6 +519,13 @@ clear 清空所以界面
 
 配置服务器环境：
 
+linu系统安装vim   
+1、下载vim安装包：wget ftp://ftp.vim.org/pub/vim/extra/vim-7.2-lang.tar.gz  解压 tar -zxvf vim包
+2、yum install vim 
+linu系统安装jdk配置环境变量
+1、vim /etc/profile
+2、编辑变量名
+3、source /etc/profile  使用此命令运行后，就已经生效了。
 
 
 自己在本地创库：
@@ -915,4 +923,23 @@ System.out.println("StringBuilder.delete:"+ strB.delete(2, 4));
 ResourceBundle bundle=ResourceBundle.getBundle("application");
 String url=bundle.getString("test.url");
 
+2018/12/6
+学习日志：
+getAbsoluteFile()返回的是一个File类对象，这个File对象表示是当前File对象的绝对路径名形式
+getAbsolutePath()返回的是一个字符串，这个字符串就是当前File对象的绝对路径名的字符串形式
 
+
+ poi导入excel表格数据时报java.lang.IllegalStateException: Cannot get a STRING value from a NUMERIC cell异常是因为在读取cell单元格字符串时，有number类型的数据，因此需要把它转化为纯String类型，这样就不会报错了。
+报错的地方类似于这样。
+ //获取单元格
+XSSFCell cell = row.getCell(0);
+//获取单元格数据
+String cellValue = cell.getStringCellValue();
+
+在number类型转化为String类型的过程中造成了Cannot get a STRING value from a NUMERIC cell这样的问题，因此需要在读取excel单元格数据转化之前设置单元格类型为String，代码如下。
+//获取单元格
+XSSFCell cell = row.getCell(0);
+//设置单元格类型
+cell.setCellType(CellType.STRING);
+//获取单元格数据
+String cellValue = cell.getStringCellValue();
