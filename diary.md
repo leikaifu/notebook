@@ -943,3 +943,39 @@ XSSFCell cell = row.getCell(0);
 cell.setCellType(CellType.STRING);
 //获取单元格数据
 String cellValue = cell.getStringCellValue();
+
+2018/12/7
+学习日志：
+public void testMap(){            
+        Map map = new HashMap();
+        map.put(1, "aa");   
+        map.put(2, "aac");
+        map.put(3, "aacc");
+        map.put(4, "aa4");
+        9//map.put(1, "aat"); //key 不能够重复 如果Key值重复 则下一个值会覆盖上一个值
+     //1、迭代map集合的值
+     Set set = map.keySet(); //key装到set中
+     Iterator it = set.iterator(); //返回set的迭代器 装的key值
+     while(it.hasNext()){
+     Integer key = (Integer)it.next();
+     String value = (String)map.get(key);
+     System.out.println(key+" "+value);
+     }
+     //2、迭代map集合的值
+     Set entry = map.entrySet(); //Set <Map.entry<K,V>>
+     it = entry.iterator(); //返回set的迭代器 装Map.entry
+     while(it.hasNext()){ //迭代
+     Map.Entry entity = (Entry) it.next(); //实体Map.entry的对象取出
+     Integer key = (Integer)entity.getKey(); //调用实体对象的getKey()获取key的值      
+     String value = (String)entity.getValue(); //调用实体对象的getValue()获取value的值
+     System.out.println(key+" "+value);
+     //如何用for循环输出Map的值 如下：
+System.out.println("-------------------------");
+for(Object ob:map.keySet()){
+System.out.println(ob+" "+map.get(ob));  
+}
+System.out.println("####################33");
+for(Map.Entry<Integer, String> m:map.entrySet()){
+System.out.println(m.getValue()+" "+m.getKey());
+}
+}
