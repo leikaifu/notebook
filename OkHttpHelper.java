@@ -1,4 +1,4 @@
-package com.youxuepai.libs.http;
+package youxuepai;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -59,8 +59,48 @@ public class OkHttpHelper implements IHttpHelper {
                 .build();
       }
 
+      protected Request makeRequest(String url, Object param, RequestMethod method, Map<String, String> headers){
+          Request.Builder builder=new Request.Builder();
+          builder.url(url);
+          Headers newHeaders=buildHeader(headers);
+          if (newHeaders!=null){
+              builder.headers(newHeaders);
+          }
+          switch (method){
+              case GET:if (param!=null&&param instanceof String){
 
+              }
+          }
+      }
+      //URL拼接参数方法
+    private String buildUrl(String url, String param){
+          if (url!=null&&param!=null){
+              StringBuilder sb=new StringBuilder(url);
+              if (sb.indexOf("?")==-1){
+                  sb.append("?");
+              }else {
+                  sb.append("&");
+              }
+              sb.append(param);
+              return sb.toString();
 
+          }
+          return url;
+    }
+    //封装header头
+    private Headers buildHeader(Map<String, String> headers){
+          Headers.Builder builder=new Builder();
+          if (!isEmpty(headers)){
+              for (String keys:headers.keySet()){
+                  builder.add(keys,headers.get(keys));
+              }
+              return builder.build();
+          }
+          return null;
+    }
+    public boolean isEmpty(Map map){
+          return map==null||map.isEmpty();
+      }
       public IResponse executeRequest(RequestParam param) {
         return null;
       }
@@ -117,19 +157,41 @@ public class OkHttpHelper implements IHttpHelper {
         }
 
         public long contentLength() {
-
-          return 0;
+            if (mResonseText == null) {
+                return (mResponse == null || mResponse.body() == null) ? -1
+                        : mResponse.body().contentLength();
+            } else {
+                return mContentLength;
+            }
         }
 
         public InputStream inputStream() {
+            if (mResponse!=null&&mResponse.body()!=null){
+                return mResponse.body().byteStream();
+            }
           return null;
         }
 
         public String parseAsString() {
-          return null;
+            if (mResonseText==null){
+                if (mResponse!=null&&mResponse.body()!=null){
+                    try {
+                        mResonseText=mResponse.body().string();
+                        if (mResonseText != null && mContentLength == -1) {
+                            mContentLength = mResonseText.getBytes().length;
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+          return mResonseText;
         }
 
         public String header(String name) {
+            if (mResponse!=null){
+                return mResponse.header(name);
+            }
           return null;
         }
 

@@ -1,4 +1,4 @@
-package com.youxuepai.libs.http;
+package youxuepai;
 
 public class HttpUtils {
 
