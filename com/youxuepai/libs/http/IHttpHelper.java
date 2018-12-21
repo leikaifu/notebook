@@ -1,4 +1,4 @@
-package youxuepai;
+package com.youxuepai.libs.http;
 
 import java.io.InputStream;
 import java.util.Map;
