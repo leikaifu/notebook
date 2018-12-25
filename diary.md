@@ -1074,3 +1074,57 @@ ctrl+鼠标点击该方法：快速定位到定义方法的地方。
 ctrl+B   ：快速回到调用方法的地方
 对象转化为json字符串
 json=对象.toJSONString()
+
+2018/12/25
+学习日志：
+String json = JSONArray.fromObject(list).toString();
+1、原理：对测试程序变量的中间状态进行断言（Assert）判断，从而辅助判断测试用例的执行是成功还是失败。
+2、TestNG中常用的断言方法有：
+(1) assertTrue：判断是否为True。
+(2) assertFalse：判断是否为false。
+(3) assertSame：判断引用地址是否相同。
+(4) assertNotSame：判断引用地址是否不相同。
+(5) assertNull：判断是否为null。
+(6) assertNotNull：判断是否不为null。
+(7) assertEquals：判断是否相等，Object类型的对象需要实现haseCode及equals方法。
+(8) assertNotEquals：判断是否不相等。
+(9) assertEqualsNoOrder：判断忽略顺序是否相等。
+3、下面使用WebDriver测试实例体现断言的使用方法。测试用例：
+(1) 打开Firefox浏览器，访问sogou首页。
+(2) 查找首页上的输入框元素。
+(3) 断言输入框是否存在。
+(4) 输入搜索关键字，点击搜索按钮。
+
+常用maven命令总结：
+mvn -v //查看版本 
+mvn archetype:create //创建 Maven 项目 
+mvn compile //编译源代码 
+mvn test-compile //编译测试代码 
+mvn test //运行应用程序中的单元测试 
+mvn site //生成项目相关信息的网站 
+mvn package //依据项目生成 jar 文件 
+mvn install //在本地 Repository 中安装 jar 
+mvn -Dmaven.test.skip=true //忽略测试文档编译 
+mvn clean //清除目标目录中的生成结果 
+mvn clean compile //将.java类编译为.class文件 
+mvn clean package //进行打包 
+mvn clean test //执行单元测试 
+mvn clean deploy //部署到版本仓库 
+mvn clean install //使其他项目使用这个jar,会安装到maven本地仓库中 
+mvn archetype:generate //创建项目架构 
+mvn dependency:list //查看已解析依赖 
+mvn dependency:tree //看到依赖树 
+mvn dependency:analyze //查看依赖的工具 
+mvn help:system //从中央仓库下载文件至本地仓库 
+mvn help:active-profiles //查看当前激活的profiles 
+mvn help:all-profiles //查看所有profiles 
+mvn help:effective -pom //查看完整的pom信息
+
+验证bug：
+1、14574 家长pc端，班级空间进不去
+2、14606 校本资源管理后台：关联知识点的页面下拉不了，还没关联完
+3、14592 【服务部-四川陈慧琼】汉字听写，本章节字词，编辑，点击声音播放，无音频播放出来，GET音频报“404”
+4、14211 【服务部-6.3-新疆王聪慧、贵州雷安华】学生账号 在已经进行了设备绑定的平板上登录目前情况:
+1.在外网测试,管控有效.
+2.外网断开,走区域服务器,可以登录.
+目前还是没有发现什么问题，开发那边还在继续排查问题原因。
