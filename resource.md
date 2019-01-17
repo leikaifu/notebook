@@ -49,6 +49,9 @@ vi /etc/sysconfig/iptables
 添加开放8080端口
 2、重启防火墙
 service iptables restart
+8、防火墙打开 8080 端口
+/sbin/iptables -I INPUT -p tcp --dport 8080 -j ACCEPT
+/etc/rc.d/init.d/iptables save
 
 ls -al 查看所有文件包括隐藏格式的文件。
 
@@ -127,6 +130,13 @@ service jenkins start
 输入命令进入Jenkins配置文件
 vi /etc/sysconfig/jenkins 
 
+五个 *****  模板
+每15分钟构建一次：H/15 * * * *   或*/5 * * * * 
+每天8点构建一次：0 8 * * *
+每天8点~17点，两小时构建一次：0 8-17/2 * * *
+周一到周五，8点~17点，两小时构建一次：0 8-17/2 * * 1-5
+每月1号、15号各构建一次，除12月：H H 1,15 1-11 *
+
 
 
 
@@ -134,5 +144,17 @@ vi /etc/sysconfig/jenkins
 git资源：
 查看git版本
 git --version
+
+
+#!/bin/bash
+cd /usr/local/src/jenkins  #进入指定目录
+#得到进程ID pid，kill该进程
+pid=`cat /usr/local/src/jenkins/pid` 
+if [ -n "$pid" ]   
+then
+   echo "kill -9 的pid:" $pid
+   kill -9 $pid    #kill进程ID为 pid 的进程
+fi
+
 
 

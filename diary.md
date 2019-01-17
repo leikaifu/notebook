@@ -113,7 +113,7 @@ jenkins平台
 4、设置utf-8编码格式：
 （1）File菜单->Other Settings->Default Settings
 （2）找到File Encodings，把IDE Encoding和Project Encoing的下拉框都设置为UTF-8，最底下还有一个default encoding for properties(这是设置属性文件)也设置成utf-8
-
+                           git refer to resource
 学习日志：
 时间：2018/10/20
 完成的任务：
@@ -131,6 +131,8 @@ git push
 git push  发布
 git pull  从上往本地拉文件
 git电子课本
+4、学习了git clone 下载地址
+
 
 2018/10/20
 学习日志：
@@ -1500,5 +1502,4 @@ Jupyter
     </plugins>  
 </build> 
 
-优学键盘
-1、镜像环境测试优学键盘，目前功能比较稳定。
+
