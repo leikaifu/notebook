@@ -1,3 +1,18 @@
+账号管理平台
+GitHub平台
+账号 1269304645@qq.com
+密码 greatlkf1987812
+
+jenkins平台
+账号: leikaifu
+密码：lkf123456
+
+本地服务器
+账号 root
+密码 qwertyuiop
+
+
+
 接口调用测试：Restlet Client 插件工具 ，安装在chrome上；
 
 使用的编辑器：exlipse 、idea、STS
@@ -1095,6 +1110,8 @@ String json = JSONArray.fromObject(list).toString();
 (3) 断言输入框是否存在。
 (4) 输入搜索关键字，点击搜索按钮。
 
+                                    maven refer to resource
+
 常用maven命令总结：
 mvn -v //查看版本 
 mvn archetype:create //创建 Maven 项目 
@@ -1120,6 +1137,11 @@ mvn help:active-profiles //查看当前激活的profiles
 mvn help:all-profiles //查看所有profiles 
 mvn help:effective -pom //查看完整的pom信息
 
+mvn clean package -Dmaven.test.skip=true  打包命令
+maven 
+使用maven导出依赖包
+mvn dependency:copy-dependencies -DoutputDirectory=lib
+
 验证bug：
 1、14574 家长pc端，班级空间进不去
 2、14606 校本资源管理后台：关联知识点的页面下拉不了，还没关联完
@@ -1142,3 +1164,341 @@ list.add(new HashMap<Integer,String>());
 但是数组不同：
 数组的所有元素的类型必须是相同；
 （所谓数组，就是相同数据类型的元素按一定顺序排列的集合，就是把有限个类型相同的变量用一个名字命名，然后用编号区分他们的变量的集合，这个名字称为数组名，编号称为下标。组成数组的各个变量称为数组的分量，也称为数组的元素，有时也称为下标变量）
+
+JSON的基本数据格式有这几种：
+1.一个JSON对象——JSONObject
+{"name":"胡小威","age":20,"male":true}
+2.一个JSON数组——JSONArray
+[{"name":"胡小威" , "age":20 , "male":true},{"name":"赵小亮" , "age":22 , "male":false}]
+3.复杂一点的JSONObject
+{"name":"胡小威", "age"=20, "male":true, "address":{"street":"岳麓山南", "city":"长沙","country":"中国"}}
+4.复杂一点的JSONArray
+[
+{"name":"胡小威", "age"=20, "male":true, "address":{"street":"岳麓山南", "city":"长沙","country":"中国"}},
+{"name":"赵小亮", "age"=22, "male":false, "address":{"street":"九州港", "city":"珠海","country":"中国"}}
+]
+
+{
+    "Code": "414500",
+    "Name": "郑州市",
+    "level": [
+        {
+            "Code": "414500",
+            "Name": "二七区",
+            "sort": 1
+        },
+        {
+            "Code": "414500",
+            "Name": "中原区",
+            "sort": 2
+        }
+    ],
+    "sort": 1
+}
+
+
+
+package parameter;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Requests {
+    private String file;
+
+    public Requests(String file) {
+        this.file = file;
+    }
+
+    public Requests() {
+    }
+    public List<Request> request() throws IOException, InvalidFormatException {
+       ExcelReader read= new ExcelReader().read(new File(file));
+        List<Map<String,Object>> mapList= read.toMaplist();
+        System.out.println(mapList);
+//        System.out.println("实例化后加载数据"+mapList);
+        if (!CollectionUtils.isEmpty(mapList)){
+            List<Request> requestLists=new ArrayList<>();
+            for (int n=0;n<mapList.size();n++){
+                RequestParam para=new RequestParam();
+                Map<String,Object> map = (HashMap<String, Object>) mapList.get(n);
+                para.setUrl(this.getExcelString(map.get("url")));
+                para.setMethod(this.getExcelString(map.get("method")));
+                para.setParam(this.getExcelString( map.get("params")));
+                para.setCheck_template(this.getExcelString(map.get("check_template")));
+                Requests requests=new Requests();
+                // RequestMethod.valueOf((String) para.getMethod())  para.getMethod()是字符串，转换成RequestMethod类型；
+                Request listrequest= requests.makeRequest(para.getUrl(),para.getParam(),  RequestMethod.valueOf((String) para.getMethod()));
+                requestLists.add(listrequest);
+            }
+            return requestLists;
+
+        }
+        return null;
+    }
+
+    protected Request makeRequest(String url, Object param, RequestMethod method) {
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        builder.header("tokens","login");
+        switch (method) {
+            case GET:
+                if (param != null && param instanceof String) {
+                    String newUrl = buildUrl(url, (String) param);
+                    builder.url(newUrl);
+                }
+                builder.get();
+                break;
+            case POST:
+                builder.post(buildBody(param));
+                break;
+            case PUT:
+                builder.put(buildBody(param));
+                break;
+            case DELETE:
+                if (param == null) {
+                    builder.delete();
+                } else {
+                    builder.delete(buildBody(param));
+                }
+                break;
+            default:
+                break;
+        }
+        return builder.build();
+    }
+
+    protected Request makeRequest(String url, Map<String, Object> params, RequestMethod method) {
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        builder.header("tokens","login");
+        switch (method) {
+            case GET:
+                String newUrl = buildUrl(url, params);
+                builder.url(newUrl);
+                builder.get();
+                break;
+            case POST:
+                builder.post(buildBody(params));
+                break;
+            case PUT:
+                builder.put(buildBody(params));
+                break;
+            case DELETE:
+                if (params== null) {
+                    builder.delete();
+                } else {
+                    builder.delete(buildBody(params));
+                }
+                break;
+            default:
+                break;
+        }
+        return builder.build();
+    }
+
+    private String buildUrl(String url, Map<String, Object> params) {
+        if (url != null && !isEmpty(params)) {
+            StringBuilder sb = new StringBuilder(url);
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                if (sb.indexOf("?") == -1) {
+                    sb.append("?");
+                } else {
+                    sb.append("&");
+                }
+                sb.append(entry.getKey());
+                sb.append("=");
+                sb.append(entry.getValue());
+            }
+            return sb.toString();
+        }
+        return url;
+    }
+
+    private String buildUrl(String url, String param) {
+        if (url != null && param != null) {
+            StringBuilder sb = new StringBuilder(url);
+            if (sb.indexOf("?") == -1) {
+                sb.append("?");
+            } else {
+                sb.append("&");
+            }
+            sb.append(param);
+            return sb.toString();
+        }
+        return url;
+    }
+
+    private RequestBody buildBody(Map<String, Object> params) {
+        if (!isEmpty(params)) {
+            if (isSimpleFormParam(params)) {
+                FormBody.Builder builder = new FormBody.Builder();
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    builder.add(entry.getKey(), entry.getValue().toString());
+                }
+                return builder.build();
+            } else {
+                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    Object data = entry.getValue();
+                    if (isSupportMedia(data)) {
+                        addSupportMedia(builder, entry.getKey(), data);
+                    } else {
+                        builder.addFormDataPart(entry.getKey(), data.toString());
+                    }
+
+                }
+                return builder.build();
+            }
+        }
+        return null;
+    }
+
+    private RequestBody buildBody(Object param) {
+        if (param != null) {
+            if (param instanceof JSONObject || param instanceof JSONArray) {
+                String json = null;
+                if (param instanceof JSONObject) {
+                    json = ((JSONObject) param).toJSONString();
+                } else {
+                    json = ((JSONArray) param).toJSONString();
+                }
+                return RequestBody.create(MediaType.parse("application/json"), json);
+            } else if (param instanceof String) {
+                return RequestBody.create(MediaType.parse("text/plain"), (String) param);
+            } else if (param instanceof File) {
+                File file = (File) param;
+                return RequestBody.create(parseMediaTypeByFileName(file), file);
+            }
+        }
+        return null;
+    }
+
+    private boolean isEmpty(Map map) {
+        return map == null || map.isEmpty();
+    }
+
+    private void addSupportMedia(MultipartBody.Builder builder, String name, Object object) {
+        if (object instanceof JSONObject
+                || object instanceof JSONArray) {
+            String str = JSON.toJSONString(object);
+            builder.addFormDataPart(name, str);
+        } else if (object instanceof File) {
+            File file = (File) object;
+            RequestBody fileBody = RequestBody.create(parseMediaTypeByFileName(file), file);
+            builder.addFormDataPart(name, file.getName(), fileBody);
+        }
+    }
+
+    private MediaType parseMediaTypeByFileName(File file) {
+        String fileName = file.getName().toLowerCase();
+        if (fileName.endsWith(".png")) {
+            return MediaType.parse("image/png");
+        } else if (fileName.endsWith(".jpg")) {
+            return MediaType.parse("image/jpeg");
+        } else if (fileName.endsWith(".bmp")) {
+            return MediaType.parse("application/x-bmp");
+        } else if (fileName.endsWith(".gif")) {
+            return MediaType.parse("image/gif");
+        } else if (fileName.endsWith(".mp3")) {
+            return MediaType.parse("audio/mp3");
+        } else if (fileName.endsWith(".mp4")) {
+            return MediaType.parse("video/mpeg4");
+        }
+        return MediaType.parse("application/octet-stream");
+    }
+
+    private boolean isSupportMedia(Object object) {
+        if (object != null) {
+            if (object instanceof JSONObject
+                    || object instanceof JSONArray
+                    || object instanceof File) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSimpleFormParam(Map<String, Object> params) {
+        if (!isEmpty(params)) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                Object data = entry.getValue();
+                if (isSupportMedia(data)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private String getExcelString(Object obj) {
+        return obj == null ? null : obj.toString();
+    }
+
+}
+
+
+
+手机号码归属地
+AppKey：bc0ef2a007664f145def144ecea368aa
+接口地址：http://apis.juhe.cn/mobile/get
+返回格式：json/xml
+请求方式：get
+请求示例：http://apis.juhe.cn/mobile/get?phone=13429667914&key=AppKey
+
+Python：
+Jupyter
+
+
+826563  
+
+
+2019/1/11
+学习日志：
+ public static void main(String[] args) {
+        TestListenerAdapter listener= new TestListenerAdapter();
+        TestNG testng = new TestNG();
+        testng.setTestClasses(new Class[] { service.class });
+        testng.addListener(listener);
+        testng.run();
+}
+
+
+
+
+<build>  
+    <plugins>  
+        <plugin>  
+            <groupId>org.apache.maven.plugins</groupId>  
+            <artifactId>maven-compiler-plugin</artifactId>  
+            <configuration>  
+                <encoding>UTF-8</encoding>  
+            </configuration>  
+        </plugin>  
+        <plugin>  
+            <groupId>org.apache.maven.plugins</groupId>  
+            <artifactId>maven-surefire-plugin</artifactId>  
+            <version>2.71</version>  
+           <configuration>
+            <suiteXmlFiles>
+              <suiteXmlFile>testng.xml</suiteXmlFile>
+            </suiteXmlFiles>
+        </configuration>
+        </plugin>  
+    </plugins>  
+</build> 
+
+优学键盘
+1、镜像环境测试优学键盘，目前功能比较稳定。

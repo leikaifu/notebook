@@ -37,7 +37,7 @@ Content-Type 常用的7种类型:
 Okhttp资源：
 
 
-                                       Linux资源：
+                                       Linux refer to resource
 
 linux系统下安装tomcat遇见的问题：
 错误：Cannot find /usr/local/tomcat/bin/setclasspath.sh（报这样的错误只需要运行下面的命令就OK了）
@@ -60,6 +60,36 @@ kill -s 9 1827
 
 执行以下命令，可以只查看正在运行的服务：
 # service --status-all | grep running
+
+8.设置环境变量
+打开profile文件：vi /etc/profile
+然后按i进入编辑模式，在文件末尾添加下面的环境变量配置：
+CATALINA_HOME=/usr/tomcat/apache-tomcat-7.0.86
+export CATALINA_HOME  
+然后ESC退出编辑模式，然后输入:wq保存退出
+9.使环境变量立即生效
+输入命令：source /etc/profile
+
+检查linux是否安装tomcat
+rpm -qa|grep tomcat
+
+JAVA_HOME=/home/gcs/user/java/jdk1.8.0_111
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME
+export PATH
+export CLASSPATH
+这里的：表示分割符  . 表示当前路径；
+
+JAVA_HOME=/usr/java/jdk-10.0.1
+CLASSPATH=$JAVA_HOME/lib/
+CATALINA_HOME=/usr/local/tomcat                     tomcat环境变量
+PATH=$PATH:$JAVA_HOME/bin:$CATALINA_HOME/bin
+export PATH JAVA_HOME CLASSPATH CATALINA_HOME
+
+usr/local/src/tomcat/apache-tomcat-7.0.92
+
+
 
 
 
@@ -104,3 +134,5 @@ vi /etc/sysconfig/jenkins
 git资源：
 查看git版本
 git --version
+
+

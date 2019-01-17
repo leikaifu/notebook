@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="测试电子书包" >
+    <test name="two">
+        <!--包测试-->
+        <!--<packages>-->
+        <!--<package name="com.sun.demo"/>-->
+        <!--</packages>-->
+        <!--类测试-->
+        <classes>
+            <class name="parameter.TestService"></class>
+        </classes>
+        <!--组测试-->
+        <!-- <groups>
+             <run>
+                 <exclude name="a"/>
+                 <include name="b"/>
+             </run>
+         </groups>-->
+    </test>
+</suite>

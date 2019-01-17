@@ -1,0 +1,15 @@
+parameter\StringUtils.class
+parameter\RequestParam.class
+parameter\IHttpHelper.class
+parameter\TestService.class
+parameter\JsonChecker.class
+parameter\ExcelReader.class
+parameter\maintest.class
+parameter\OkHttpHelper.class
+parameter\DefaultChecker.class
+parameter\MyRequest.class
+parameter\RequestMethod.class
+parameter\IHttpHelper$IResponse.class
+parameter\MyRequest$1.class
+parameter\IResponseCheck.class
+parameter\OkHttpHelper$1.class
