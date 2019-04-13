@@ -1,8 +1,17 @@
+邮箱地址：13551131193@163.com
+密码：lkf1987812
+授权码 service123
+
+阿里注册
+账号：lkf_service
+密码：lkf123456
+
 账号管理平台
 GitHub平台
 账号 1269304645@qq.com
 密码 greatlkf1987812
 
+Linux系统:
 jenkins平台
 账号: leikaifu
 密码：lkf123456
@@ -444,8 +453,8 @@ testng 按组测试
     </groups>
     </test>
 </suite>
-
-
+                    
+                            linux refer to resource
 2018/11/16
 学习日志：
 filename.zip的解压命名：unzip filename.zip
@@ -550,6 +559,43 @@ linu系统安装jdk配置环境变量
 3、source /etc/profile  使用此命令运行后，就已经生效了。
 
 Linux系统下安装jdk文档地址：https://www.cnblogs.com/manong--/p/8016884.html
+
+                                     Linux——python
+官网下载地址：https://www.anaconda.com/download/#linux
+下载
+wget https://repo.continuum.io/archive/Anaconda3-5.1.0-Linux-x86_64.sh && bash Anaconda3-5.1.0-Linux-x86_64.sh
+然后照着安装，基本也就是路径，同意协议之类的，最后装好了会提示微软vs的安装，如果不是要用到VS的，NO掉
+环境变量
+1.修改~/.bashrc
+2.添加export PATH=/home/lishanliao/anaconda3/bin:$PATH
+3.source ~/.bashrc
+然后输入python得到显示
+site-packages:anaconda3/lib/python3.6/site-packages
+
+4、如果需要卸载anaconda的话，只需要删除anaconda目录即可:
+$ rm -rf /anaconda/anaconda3
+                                    shell refer to resource
+shell 发送邮件需要安装的依赖包和配置
+下载安装mailutils
+wget ftp://ftp.gnu.org/gnu/mailutils/mailutils-2.2.tar.gz
+下载完成后在当前目录中可以看到压缩文件，解压进入，执行安装命令。
+tar -xvf mailutils-2.2.tar.gz
+cd ./mailutils-2.2
+./configure
+make && make install
+yum install -y sendmail
+yum install sharutils   # 使用带附件功能
+service sendmail start 
+查看sendmail启动没：
+  ps aux |grep sendmail
+
+测试：    echo 'content test' | mail -s "title test"  -t aaa@b.com
+此时发觉只能给公司内部发邮件， 如果需要还能给外面的邮箱（比如我的qq邮箱）发邮件则还需要
+vi  /etc/mail/sendmail.mc
+找到包含Addr的这一行：    
+DAEMON_OPTIONS(`port=smtp,Addr=::1, Name=MTA-v6, Family=inet6')dnl
+修改Addr=0.0.0.0  ，表明可以连接到任何服务器
+End
 
 
 
@@ -1502,4 +1548,109 @@ Jupyter
     </plugins>  
 </build> 
 
+ 
+                            python refer to resource
+jupyter编辑器
+IPython 命令行编辑
 
+cmd命令行下操作安装依赖包
+安装selenium
+pip install -U selenium
+卸载selenium
+pip uninstall selenium
+
+Chrome.exe 放在scripts 文件下
+
+如何配置使用无头Chrome浏览器
+from selenium import webdriver
+# 创建chrome参数对象
+opt = webdriver.ChromeOptions()
+# 把chrome设置成无界面模式，不论windows还是linux都可以，自动适配对应参数
+opt.set_headless()
+# 创建chrome无界面对象
+driver = webdriver.Chrome(options=opt)
+# 访问百度
+driver.get('https://baidu.com/')
+#打印内容
+driver.page_source
+
+                                    log4j.properties
+### 配置根 ###
+log4j.rootLogger = debug,console ,fileAppender,dailyRollingFile,ROLLING_FILE,MAIL,DATABASE
+
+### 设置输出sql的级别，其中logger后面的内容全部为jar包中所包含的包名 ###
+log4j.logger.org.apache=dubug
+log4j.logger.java.sql.Connection=dubug
+log4j.logger.java.sql.Statement=dubug
+log4j.logger.java.sql.PreparedStatement=dubug
+log4j.logger.java.sql.ResultSet=dubug
+
+### 配置输出到控制台 ###
+log4j.appender.console = org.apache.log4j.ConsoleAppender
+log4j.appender.console.Target = System.out
+log4j.appender.console.layout = org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern =  %d{ABSOLUTE} %5p %c{ 1 }:%L - %m%n
+
+### 配置输出到文件 ###
+log4j.appender.fileAppender = org.apache.log4j.FileAppender
+log4j.appender.fileAppender.File = logs/log.log
+log4j.appender.fileAppender.Append = true
+log4j.appender.fileAppender.Threshold = DEBUG
+log4j.appender.fileAppender.layout = org.apache.log4j.PatternLayout
+log4j.appender.fileAppender.layout.ConversionPattern = %-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n
+
+
+
+                                        springboot配置文件
+# 驱动配置信息  
+spring:
+    datasource:
+              type : com.alibaba.druid.pool.DruidDataSource  
+              url : jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8  
+              username: root  
+              password : yuhaiguang
+              driverClassName : com.mysql.jdbc.Driver  
+
+#连接池的配置信息  
+#              initialSize=5  
+#              minIdle=5  
+#              maxActive=20  
+#              maxWait=60000  
+#              timeBetweenEvictionRunsMillis=60000  
+#              minEvictableIdleTimeMillis=300000  
+#              validationQuery=SELECT 1 FROM DUAL  
+#              testWhileIdle=true  
+#              testOnBorrow=false  
+#              testOnReturn=false  
+#              poolPreparedStatements=true  
+#              maxPoolPreparedStatementPerConnectionSize=20  
+#              filters=stat,wall,log4j  
+#              connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000  
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.example.demo.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 2
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #序列接口实现类配置
+    #key-generator: com.baomidou.springboot.xxx
+    #逻辑删除配置
+    #logic-delete-value: 0
+    #logic-not-delete-value: 1
+    #自定义填充策略接口实现
+    #meta-object-handler: com.baomidou.springboot.xxx
+    #自定义SQL注入器
+    #sql-injector: com.baomidou.springboot.xxx
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
