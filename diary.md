@@ -1594,7 +1594,7 @@ log4j.appender.console.layout.ConversionPattern =  %d{ABSOLUTE} %5p %c{ 1 }:%L -
 ### 配置输出到文件 ###
 log4j.appender.fileAppender = org.apache.log4j.FileAppender
 log4j.appender.fileAppender.File = logs/log.log
-log4j.appender.fileAppender.Append = true
+log4j.appender.fileAppender.Append = true&characterEncoding
 log4j.appender.fileAppender.Threshold = DEBUG
 log4j.appender.fileAppender.layout = org.apache.log4j.PatternLayout
 log4j.appender.fileAppender.layout.ConversionPattern = %-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n
@@ -1654,3 +1654,5 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
+	
+
