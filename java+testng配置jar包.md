@@ -180,7 +180,7 @@ public void post() {
 }
 
 /**
- * 发送 get请求
+ * 发送 get请求 无参数
  */
 public void get() {
     CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -221,6 +221,36 @@ public void get() {
         }
     }
 }
+
+
+/*
+	 * HttpClient Get请求带参数
+	 */
+	@Test
+	public void fun1() throws ClientProtocolException, IOException {
+		
+//		1、创建httpClient
+		CloseableHttpClient client = HttpClients.createDefault();
+//		2、封装请求参数
+		List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
+		list.add(new BasicNameValuePair("username", "cgx"));
+		list.add(new BasicNameValuePair("password", "123456"));
+		
+		//3、转化参数
+		String params = EntityUtils.toString(new UrlEncodedFormEntity(list,Consts.UTF_8));
+		System.out.println(params);
+		//4、创建HttpGet请求
+		HttpGet httpGet = new HttpGet("http://localhost:8080/itcast297/loginAction_login"+"?"+params);
+		CloseableHttpResponse response = client.execute(httpGet);
+		
+		//5、获取实体
+		HttpEntity entity = response.getEntity();
+		//将实体装成字符串
+		String string = EntityUtils.toString(entity);
+		System.out.println(string);
+		
+		response.close();
+	}
 
 /**
  * 上传文件
