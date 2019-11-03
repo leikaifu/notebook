@@ -111,27 +111,34 @@ aftersuite
 Integer i;
 int k = i.intValue();
 即Integer.intValue();
+
 2.int转换成Integer
 int i;
 Integer it = new Integer(i);
+
 3.String转换成int的方法
 String str = "10";
 Integer it = new Interger(str);
 int i = it.intValue();
 即：int i = Integer.intValue(string);
+
 4.int转换成String
 int i;
 (1)String s = String.valueOf(i);
 (2)String s = Ingeger.toString(i);
 (3)String s = "" + i;
+
 5.String转换成Integer
 String str = "10"
 Integer it = Integer.valueOf(str);
+
 6.Integer转换成String
 Integer it;
 String str = it.toString();
+
 7.String转换成BigDecimal
 BigDecimal bd = new BigDecimal(str);
+
 8.日期
 Calendar calendar = Calendar.getInstance();
 int year = calendar.get(Calendar.YEAR);
@@ -152,8 +159,200 @@ new java.sql.Date(System.currentTimeMillis());
 	System.out.println(s.indexOf("y"));     //-1    如果没有找到该字符，则返回-1；
 	System.out.println(s.lastIndexOf("x")); //6
 		
+---------------------------------------------------------------------------------------------------------	
+
+
+关于token的技术文档：	
+http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html
+
+
+
+--------------------------------------------------------------------------------------------------
+fastjson对象，JSON，字符串，map之间的互转
+1.对象与字符串之间的互转
+
+将对象转换成为字符串
+String str = JSON.toJSONString(infoDo);
+字符串转换成为对象
+InfoDo infoDo = JSON.parseObject(strInfoDo, InfoDo.class);
+
+
+2.对象集合与字符串之间的互转
+
+将对象集合转换成为字符串
+String users = JSON.toJSONString(users);
+将字符串转换成为对象集合
+List<User> userList = JSON.parseArray(userStr, User.class);  
+
+3.字符串互转JSONObject
+
+String 转 Json对象
+JSONObject jsonObject = JSONObject.parseObject(jsonString);
+json对象转string
+JSONObject jsonObject = JSONObject.parseObject(str);//json对象转字符串 
+String jsonString = jsonObject.toJSONString();
+
+4.map与字符串之间互转
+
+ 
+
+  //字符串转map
+  JSONObject  jsonObject = JSONObject.parseObject(str);
+  Map<String,Object> map = (Map<String,Object>)jsonObject;//    //json对象转Map
+  //map转字符串
+  String jsonString = JSON.toJSONString(map);
+5.Map 转 Json对象
+
+复制代码
+   //map转json对象
+    Map<String,Object> map = new HashMap<>();
+    map.put("age", 24);
+    map.put("name", "cool_summer_moon");
+    JSONObject json = new JSONObject(map);
+　　//json对象转Map 
+　　Map<String,Object> map = (Map<String,Object>)jsonObject; 
+复制代码
+6.map互转对象
+
+ 
+
+7.json对象互转对象
 		
+---------------------------------------------------------------------------------------------------------
 		
-		
-		
+构造方法是只有你在new对象的时候才会执行,静态语句块和静态方法在类加载到内存的时候就已经执行了
+,另外,静态语句块只能给静态变量赋值,里面不能出现方法,同样,静态方法里面也不能出现静态语句块
+
+java中首先是静态块先执行，静态方法，最后是构造函数。
+
+调用静态方法之前是不是先执行了静态语句块呢?
+追答
+对,先是静态语句块执行,然后静态方法加载到内存.
+静态语句块你不管它它自动会执行,而静态方法它一直存在于内存中,只有你用类名点方法名的时候才会执行
+
+public class ExA {  
+    static {  
+        System.out.println("父类--静态代码块");  
+    }  
+   
+    public ExA() {  
+        System.out.println("父类--构造函数");  
+    }  
+   
+    {  
+        System.out.println("父类--非静态代码块");  
+    }  
+   
+    public static void main(String[] args) {  
+        new ExB();  
+    }  
+}  
+   
+class ExB extends ExA {  
+    static {  
+        System.out.println("子类--静态代码块");  
+    }  
+    {  
+        System.out.println("子类--非静态代码块");  
+    }  
+   
+    public ExB() {  
+        System.out.println("子类--构造函数");  
+    }  
+}  
+ 
+执行结果 
+===== 
+父类--静态代码块 
+子类--静态代码块 
+父类--非静态代码块 
+父类--构造函数 
+子类--非静态代码块 
+子类--构造函数
+---------------------------------------------------------------------------------------------------------
+
+
+ 在Java中，可以将一个类定义在另一个类里面或者一个方法里边，这样的类称为内部类，广泛意义上的内部类一般包括四种：成员内部类，局部内部类，匿名内部类，静态内部类 。
+
+1.成员内部类
+
+    （1）该类像是外部类的一个成员，可以无条件的访问外部类的所有成员属性和成员方法（包括private成员和静态成员）；
+
+    （2）成员内部类拥有与外部类同名的成员变量时，会发生隐藏现象，即默认情况下访问的是成员内部类中的成员。如果要访问外部类中的成员，需要以下形式访问：【外部类.this.成员变量  或  外部类.this.成员方法】；
+
+    （3）在外部类中如果要访问成员内部类的成员，必须先创建一个成员内部类的对象，再通过指向这个对象的引用来访问；
+
+    （4）成员内部类是依附外部类而存在的，也就是说，如果要创建成员内部类的对象，前提是必须存在一个外部类的对象；
+
+    （5）内部类可以拥有private访问权限、protected访问权限、public访问权限及包访问权限。如果成员内部类用private修饰，则只能在外部类的内部访问；如果用public修饰，则任何地方都能访问；如果用protected修饰，则只能在同一个包下或者继承外部类的情况下访问；如果是默认访问权限，则只能在同一个包下访问。外部类只能被public和包访问两种权限修饰。
+
+2.局部内部类
+
+    （1）局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内；
+
+    （2）局部内部类就像是方法里面的一个局部变量一样，是不能有public、protected、private以及static修饰符的；
+
+    （3）对于局部内部类，只有在方法的局部变量被标记为final或局部变量是effctively final的，内部类才能使用它们。
+
+3.匿名内部类
+
+    （1）一般使用匿名内部类来编写事件监听代码；
+
+    （2）匿名内部类是不能有访问修饰符和static修饰符的；
+
+    （3）匿名内部类是唯一一种没有构造器的类；
+
+    （4）匿名内部类用于继承其他类或是实现接口，并不需要增加额外的方法，只是对继承方法的实现或是重写。
+
+4.内部静态类
+
+    （1）静态内部类是不需要依赖于外部类的，这点和类的静态成员属性有点类似；
+
+    （2）不能使用外部类的非static成员变量或者方法。
+ ———————————————— 
+版权声明：本文为CSDN博主「夏沐_lk」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/guanmao4322/article/details/82820702
+
+ 在Java中，可以将一个类定义在另一个类里面或者一个方法里边，这样的类称为内部类，广泛意义上的内部类一般包括四种：成员内部类，局部内部类，匿名内部类，静态内部类 。
+
+1.成员内部类
+
+    （1）该类像是外部类的一个成员，可以无条件的访问外部类的所有成员属性和成员方法（包括private成员和静态成员）；
+
+    （2）成员内部类拥有与外部类同名的成员变量时，会发生隐藏现象，即默认情况下访问的是成员内部类中的成员。如果要访问外部类中的成员，需要以下形式访问：【外部类.this.成员变量  或  外部类.this.成员方法】；
+
+    （3）在外部类中如果要访问成员内部类的成员，必须先创建一个成员内部类的对象，再通过指向这个对象的引用来访问；
+
+    （4）成员内部类是依附外部类而存在的，也就是说，如果要创建成员内部类的对象，前提是必须存在一个外部类的对象；
+
+    （5）内部类可以拥有private访问权限、protected访问权限、public访问权限及包访问权限。如果成员内部类用private修饰，则只能在外部类的内部访问；如果用public修饰，则任何地方都能访问；如果用protected修饰，则只能在同一个包下或者继承外部类的情况下访问；如果是默认访问权限，则只能在同一个包下访问。外部类只能被public和包访问两种权限修饰。
+
+2.局部内部类
+
+    （1）局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内；
+
+    （2）局部内部类就像是方法里面的一个局部变量一样，是不能有public、protected、private以及static修饰符的；
+
+    （3）对于局部内部类，只有在方法的局部变量被标记为final或局部变量是effctively final的，内部类才能使用它们。
+
+3.匿名内部类
+
+    （1）一般使用匿名内部类来编写事件监听代码；
+
+    （2）匿名内部类是不能有访问修饰符和static修饰符的；
+
+    （3）匿名内部类是唯一一种没有构造器的类；
+
+    （4）匿名内部类用于继承其他类或是实现接口，并不需要增加额外的方法，只是对继承方法的实现或是重写。
+
+4.内部静态类
+
+    （1）静态内部类是不需要依赖于外部类的，这点和类的静态成员属性有点类似；
+
+    （2）不能使用外部类的非static成员变量或者方法。
+ 
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
 		
